@@ -4,6 +4,9 @@ import 'package:http/http.dart';
 
 final baseUri = "https://www.thecocktaildb.com/api/json/v1/1/search.php?s=";
 
+final ingredientsBaseUri = "https://www.thecocktaildb.com/images/ingredients/";
+
+
 Future<dynamic> searchCocktail(String name) async {
   final uri = Uri.parse("${baseUri}${name}");
   try {
@@ -15,4 +18,10 @@ Future<dynamic> searchCocktail(String name) async {
   } catch (error) {
     return null;
   }
+}
+
+
+String getIngredientThumbnail(String ingredientName) {
+  String filename = "${ingredientName.toLowerCase()}-medium.png";
+  return "${ingredientsBaseUri}${filename}";
 }

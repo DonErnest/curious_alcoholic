@@ -5,15 +5,25 @@ class Cocktail {
   final String instructions;
   final String? image;
   final String thumbnail;
+  final List<String> ingredients;
+
 
   factory Cocktail.fromJson(Map<String, dynamic> json) {
+    List<String> ingredients = [];
+    json.removeWhere((key, value) => value == null);
+
+    for (var key in json.keys.where((key) => key.contains("strIngredient"))) {
+      ingredients.add(json[key]);
+    }
+
     return Cocktail(
       id: json["idDrink"],
       name: json["strDrink"],
       category: json["strCategory"],
       instructions: json["strInstructions"],
-      image: json["strImageSource"],
-      thumbnail: json["strDrinkThumb"]
+      image: json.containsKey("strImageSource")? json["strImageSource"] : null,
+      thumbnail: json["strDrinkThumb"],
+      ingredients: ingredients,
     );
   }
 
@@ -24,5 +34,6 @@ class Cocktail {
     required this.instructions,
     required this.image,
     required this.thumbnail,
+    required this.ingredients,
   });
 }
